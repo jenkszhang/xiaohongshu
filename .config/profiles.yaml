@@ -1,0 +1,40 @@
+# 小红书双号 Chrome Profile 映射
+# chrome-devtools 启动时根据「账号」字段选 profile
+#
+# 使用范围（见 ~/.claude/projects/-Users-jk--------/memory/feedback_xhs_tools_scope.md）：
+#   - 长尾词调研：用对应 profile 抓搜索框下拉、相关搜索、评论区高频词
+#   - 数据抓取：xhs-data-refresh 根据 frontmatter「账号」字段切对应 profile 抓后台数据
+#   - 不做发布自动化（发布由用户手动）
+#
+# 在 macOS 上获取 profile name 的方式：
+#   1. Chrome 右上角头像 → 管理用户 → 看用户名（不是 Default / Profile 1 这种内部名）
+#   2. 或在地址栏跑 chrome://version 看 Profile Path 末段，那就是 profile dir 名
+#
+# chrome-devtools MCP 启动参数（在 .claude/settings.json 或环境变量层面注入）：
+#   --user-data-dir="$HOME/Library/Application Support/Google/Chrome"
+#   --profile-directory="<下面的 profile_dir>"
+
+accounts:
+  健康账号-面向年轻人 (JuankZ):
+    display_name: 朱朱的科学养生
+    note_dir: 健康账号-面向年轻人
+    profile_dir: Default            # 待用户确认；如果不对在 chrome://version 查
+    style_preamble: 健康账号-面向年轻人/账号视觉/候选/A-米白暖橙/STYLE_PREAMBLE.md
+    status: active
+
+  上班族-抗炎饮食:
+    display_name: 清淡日常 · 抗炎
+    signature: 抗炎实操研究向｜克制不焦虑 只给清单｜替你筛过 截图就能用｜点关注收藏不亏
+    note_dir: 上班族-抗炎饮食
+    profile_dir: <待用户在 Chrome 新建 profile 后回填>   # 例如 "Profile 1"
+    style_preamble: 上班族-抗炎饮食/账号视觉/STYLE_PREAMBLE.md   # F-雾蓝鼠尾草绿北欧（2026-05-16 已定稿）
+    visual_variant: F-雾蓝·鼠尾草绿·北欧
+    status: bootstrapping   # 等待 Chrome profile 注册 + 小红书账号登录
+
+# 字段说明
+# - display_name: 创作者后台头部显示的账号名，xhs-data-refresh 抓数据前用来校验
+# - signature: 个人简介（小红书简介上限 60 字符 ≈ 30 汉字）。注册时填到个人主页
+# - note_dir: 本地 ~/小红书运营工程/<note_dir>/ 目录名
+# - profile_dir: macOS Chrome User Data 下的 profile 子目录名
+# - style_preamble: 相对 ~/小红书运营工程/ 的视觉风格 prompt 文件路径
+# - status: active | bootstrapping | paused
